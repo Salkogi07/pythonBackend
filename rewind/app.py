@@ -47,6 +47,23 @@ def follow():
         user['follow'] = [userIDtoFollow]
     return jsonify(user)
 
+@app.route("/follow", methods=['POST'])
+def follow():
+    payload = request.json
+    userID = int(payload['id'])
+    userIDtoFollow = int(payload['follow'])
+
+    if userID not in app.users or userIDtoFollow not in app.users:
+        return '사용자가 존재하지 않습니다.', 400
+    
+    user = app.users[userID]
+    if user.get('follow'):
+        try: user['follow'].remove(userIDtoFollow)
+        except: pass
+    else:
+        user['follow'] = []
+    return jsonify(user)
+
 
 if '__main__' == __name__:
     app.run()
