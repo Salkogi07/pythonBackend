@@ -48,7 +48,7 @@ def follow():
     return jsonify(user)
 
 @app.route("/unfollow", methods=['POST'])
-def follow():
+def unfollow():
     payload = request.json
     userID = int(payload['id'])
     userIDtoFollow = int(payload['unfollow'])
