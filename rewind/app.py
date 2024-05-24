@@ -30,6 +30,24 @@ def post():
     })
     return '성공', 200
 
+@app.route("/follow", methods=['POST'])
+def follow():
+    payload = request.json
+    userID = int(payload['id'])
+    userIDtoFollow = int(payload['follow'])
+
+    if userID not in app.users or userIDtoFollow not in app.user:
+        return '사용자가 존재하지 않습니다.', 400
+    
+    user = app.users[userID]
+    if user.get('follow'):
+        user['follow'].append(userIDtoFollow)
+        user['follow'] = list(set(user['follow']))
+    else:
+        user['follow'] = [userIDtoFollow]
+    return jsonify(user)
+
+
 if '__main__' == __name__:
     app.run()
 
@@ -60,23 +78,6 @@ if '__main__' == __name__:
 # @app.route("/check-tweet", methods=['POST'])
 # def check_tweet():
 #     return app.tweets
-
-# @app.route("/follow", methods=['POST'])
-# def follow():
-#     payload = request.json
-#     userID = int(payload['id'])
-#     userIDtoFollow = int(payload['follow'])
-
-#     if(userID or userIDtoFollow) not in app.users:
-#         return '사용자가 존재하지 않습니다.', 400
-    
-#     user = app.users[userID]
-#     if user.get('follow'):
-#         user['follow'].append(userIDtoFollow)
-#         user['follow'] = list(set(user['follow']))
-#     else:
-#         user['follow'] = [userIDtoFollow]
-#     return jsonify(user)
 
 # @app.route("/unfollow", methods=['POST'])
 # def unfollow():
