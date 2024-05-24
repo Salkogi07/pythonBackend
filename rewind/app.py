@@ -51,7 +51,7 @@ def follow():
 def follow():
     payload = request.json
     userID = int(payload['id'])
-    userIDtoFollow = int(payload['follow'])
+    userIDtoFollow = int(payload['unfollow'])
 
     if userID not in app.users or userIDtoFollow not in app.users:
         return '사용자가 존재하지 않습니다.', 400
